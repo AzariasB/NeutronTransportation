@@ -5,3 +5,7 @@
 /dist/
 nbproject/
 /nbproject/private/ 
+/res/
+/res/*
+/dist/
+/dits/*
