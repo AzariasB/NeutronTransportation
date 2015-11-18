@@ -10,7 +10,7 @@
 
 #### Compiler and tool definitions shared by all build targets #####
 CC = gcc
-BASICOPTS = -g
+BASICOPTS = -g -std=c11
 CFLAGS = $(BASICOPTS)
 
 
