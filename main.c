@@ -8,12 +8,10 @@
 #include <time.h>
 #include <string.h>
 
-#include "calc_transportation.c"
-
+#include "calc_transportation.h"
+#include "window_manager.h"
 
 static pthread_t* cores;
-
-void *calcTransportation(void* mat_prop);
 
 void set_options(char **options) {
     if (strcmp(options[0], "--core") == 0 && options[1] != NULL) {
@@ -26,6 +24,7 @@ void set_options(char **options) {
 }
 
 int main(int argc, char** argv) {
+    start(argc,argv);
     time_t t;
     srand((unsigned) time(&t)); // Reseting random number generation
 
@@ -47,7 +46,7 @@ int main(int argc, char** argv) {
     }
 
     //Init material caracteristics
-    const material mat = {.mean_free_path = atof(argv[1]), .absorbing = atof(argv[2]), .thickness = atoi(argv[3])};
+    const material *mat = material_new(atof(argv[1]),atof(argv[2]),atof(argv[3]));
 
     int ans_length = sizeof (answer) / sizeof (int);
     mutexes = malloc(sizeof (pthread_mutex_t) * ans_length);
@@ -60,7 +59,7 @@ int main(int argc, char** argv) {
 
     cores = malloc(sizeof (pthread_t) * coreNumber);
     for (int i = 0; i < coreNumber; i++) {
-        int err = pthread_create(&cores[i], NULL, calcTransportation, (void *) &mat);
+        int err = pthread_create(&cores[i], NULL, calc_transportation, (void *) mat);
         if (err != 0) {
             perror("Coult not create thread");
             return EXIT_FAILURE;

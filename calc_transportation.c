@@ -1,43 +1,41 @@
 
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
+#include "calc_transportation.h"
+
+#ifdef CALC_TRANSPORTATION_H
 
 
-#ifndef M_PI
-#define M_PI 3.141592654
-#endif
+int numberOfNeutron = 1000;
+int coreNumber = 4;
 
-#define TRUE 1
-#define FALSE 0
+pthread_mutex_t* mutexes;
+int answer[3] = {0, 0, 0};
 
-static int numberOfNeutron = 1000;
-static int coreNumber = 4;
-
-typedef struct material {
+struct _material {
     //Free path : path a molecule before interact with one of the atom of the material
     double mean_free_path;
     //double scattering; // useless for the moment
     double absorbing; //Absorbing component of the material
     float thickness; //Thickness of the material
-} material;
-
-static pthread_mutex_t* mutexes;
-
-// Number of : {reflected,transmitted,absorbed}
-static int answer[3] = {0, 0, 0};
-
+};
 
 double r2() {
     return (double) rand() / (double) RAND_MAX;
 }
 
+material *material_new(double mean_f_path,double absorbing,float thickness ){
+    material *mat = malloc(sizeof(material));
+    mat->absorbing = absorbing;
+    mat->mean_free_path = mean_f_path;
+    mat->thickness = thickness;
+    return mat;
+    
+}
+
 /*
  * Main calculus of the program
  */
-void *calcTransportation(void* mat_prop) {
+void *calc_transportation(void* mat_prop) {
     material *mat = (material*) mat_prop;
     for (int i = 0; i < (int) (numberOfNeutron / coreNumber); i++) {
         double direction = 0;
@@ -69,3 +67,5 @@ void *calcTransportation(void* mat_prop) {
         }
     }
 }
+
+#endif

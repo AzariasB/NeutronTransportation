@@ -10,9 +10,7 @@
 
 #### Compiler and tool definitions shared by all build targets #####
 CC = gcc
-BASICOPTS = -std=c11 -pthread
-CFLAGS = $(BASICOPTS)
-
+BASICOPTS = -std=c11
 
 # Define the target directories.
 TARGETDIR_transportation=res
@@ -22,19 +20,30 @@ all: $(TARGETDIR_transportation)/transportation
 
 ## Target: *.c
 OBJS_transportation =  \
+	$(TARGETDIR_transportation)/window_manager.o \
+	$(TARGETDIR_transportation)/calc_transportation.o \
 	$(TARGETDIR_transportation)/main.o
 SYSLIBS_transportation = -lm
 USERLIBS_transportation = $(SYSLIBS_transportation)
+GTKFLAGS=`pkg-config --libs --cflags gtk+-3.0`
+CFLAGS = $(BASICOPTS)
 
 
 # Link or archive
 $(TARGETDIR_transportation)/transportation: $(TARGETDIR_transportation) $(OBJS_transportation)
-	$(LINK.c) $(CFLAGS_transportation) -o $@ $(OBJS_transportation) $(USERLIBS_transportation)
+	$(LINK.c) $(CFLAGS_transportation) -o $@ $(OBJS_transportation) $(USERLIBS_transportation) $(GTKFLAGS)
 
 
 # Compile source files into .o files
+$(TARGETDIR_transportation)/window_manager.o: $(TARGETDIR_transportation) window_manager.c
+	$(COMPILE.c) $(CFLAGS_transportation)  -o $@ window_manager.c $(GTKFLAGS)
+
+$(TARGETDIR_transportation)/calc_transportation.o: $(TARGETDIR_transportation) calc_transportation.c
+	$(COMPILE.c) $(CFLAGS_transportation) -o $@ calc_transportation.c $(GTKFLAGS)
+
+
 $(TARGETDIR_transportation)/main.o: $(TARGETDIR_transportation) main.c
-	$(COMPILE.c) $(CFLAGS_transportation) -o $@ main.c
+	$(COMPILE.c) $(CFLAGS_transportation) -o $@ main.c $(GTKFLAGS)
 
 
 
@@ -42,7 +51,9 @@ $(TARGETDIR_transportation)/main.o: $(TARGETDIR_transportation) main.c
 clean:
 	rm -f \
 		$(TARGETDIR_transportation)/transportation \
-		$(TARGETDIR_transportation)/main.o
+		$(TARGETDIR_transportation)/main.o \
+		$(TARGETDIR_transportation)/calc_transportation.o \
+		$(TARGETDIR_transportation)/window_manager.o
 	rm -f -r $(TARGETDIR_transportation)
 
 
