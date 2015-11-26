@@ -6,5 +6,5 @@ TODO :
 - [x] Implement the basic algorithm
 - [ ] Implement the basic algorithm WITH REAL VALUES
 - [x] Implement the threaded algorithm
-- [x] Implement the threaded algorithm WITH REAL VALUES
+- [ ] Implement the threaded algorithm WITH REAL VALUES
 - [ ] Create a GUI
