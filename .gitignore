@@ -1,8 +1,6 @@
 /nbproject/private/
 /nbproject/*
 /nbproject/
-build/
-res/
-res/*
-dist/
-dist/*
+/build/
+/res/
+/dist/
