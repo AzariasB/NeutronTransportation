@@ -17,8 +17,13 @@
 #define M_PI 3.141592654
 #endif
 
-#define TRUE 1
-#define FALSE 0
+#ifndef TRUE
+#define TRUE (1)
+#endif
+
+#ifndef FALSE
+#define FALSE (0)
+#endif
 
 extern int numberOfNeutron;
 extern int coreNumber;

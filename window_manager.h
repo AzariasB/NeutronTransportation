@@ -9,12 +9,18 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 
+#include "calc_transportation.h"
+
 #ifndef WINDOW_MANAGER_H
 #define	WINDOW_MANAGER_H
 
+static pthread_t *cores;
 
-void activate(GtkApplication* app, gpointer user_data);
-void start(int argc,char **argv);
+
+void setup_window(GtkWidget* window);
+int start(int argc,char **argv);
+void runTest();
+void initTest(GtkWidget* window);
 
 #endif	/* WINDOW_MANAGER_H */
 
