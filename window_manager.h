@@ -14,13 +14,16 @@
 #ifndef WINDOW_MANAGER_H
 #define	WINDOW_MANAGER_H
 
-static pthread_t *cores;
 
+
+static pthread_t *cores;
+//static GtkBuilder *p_builder;
 
 void setup_window(GtkWidget* window);
 int start(int argc,char **argv);
-void runTest();
-void initTest(GtkWidget* window);
+void runTest(material *mat,GtkBuilder *p_builder);
+void *init_test(GtkWidget* trigerrer,gpointer callback_data);
+material *create_material(GtkBuilder* p_builer);
 
 #endif	/* WINDOW_MANAGER_H */
 

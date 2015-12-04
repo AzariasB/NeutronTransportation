@@ -2,17 +2,47 @@
 <!-- Generated with glade 3.16.1 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
+  <object class="GtkAdjustment" id="absorptio">
+    <property name="upper">1</property>
+    <property name="value">0.5</property>
+    <property name="step_increment">0.01</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="mean_free_pat">
+    <property name="upper">1</property>
+    <property name="value">0.48999999999999999</property>
+    <property name="step_increment">0.01</property>
+    <property name="page_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="neutrons_nb">
+    <property name="lower">1000</property>
+    <property name="upper">1000000</property>
+    <property name="value">1000</property>
+    <property name="step_increment">1000</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="thickness">
+    <property name="upper">1000</property>
+    <property name="value">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkWindow" id="window1">
     <property name="can_focus">False</property>
+    <property name="type_hint">menu</property>
     <child>
       <object class="GtkGrid" id="grid1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="row_spacing">5</property>
+        <property name="column_spacing">10</property>
         <child>
           <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">label</property>
+            <property name="label" translatable="yes">&lt;span size="large" &gt; Neutron transportation simulation &lt;/span&gt;</property>
+            <property name="use_markup">True</property>
+            <property name="ellipsize">middle</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -31,7 +61,7 @@
               <object class="GtkLabel" id="label3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">label</property>
+                <property name="label" translatable="yes">Mean free path</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -41,9 +71,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spinbutton1">
+              <object class="GtkSpinButton" id="spin_button_mean_free_path">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="adjustment">mean_free_pat</property>
+                <property name="climb_rate">0.01</property>
+                <property name="digits">2</property>
+                <property name="value">0.48999999999999999</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -70,7 +104,7 @@
               <object class="GtkLabel" id="label4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">label</property>
+                <property name="label" translatable="yes">Wall thickness</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -80,9 +114,15 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spinbutton2">
+              <object class="GtkSpinButton" id="spin_button_thickness">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="max_length">6</property>
+                <property name="xalign">0.0099999997764825821</property>
+                <property name="shadow_type">out</property>
+                <property name="input_purpose">number</property>
+                <property name="adjustment">thickness</property>
+                <property name="climb_rate">1</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -109,7 +149,7 @@
               <object class="GtkLabel" id="label5">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">label</property>
+                <property name="label" translatable="yes">Absorbption</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -119,9 +159,15 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spinbutton3">
+              <object class="GtkSpinButton" id="spin_button_absorption">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="shadow_type">out</property>
+                <property name="input_purpose">alpha</property>
+                <property name="adjustment">absorptio</property>
+                <property name="climb_rate">1</property>
+                <property name="digits">2</property>
+                <property name="value">0.5</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -142,7 +188,10 @@
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">label</property>
+            <property name="label" translatable="yes">Material properties</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -161,7 +210,7 @@
               <object class="GtkLabel" id="label6">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">label</property>
+                <property name="label" translatable="yes">Number of neutrons</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -171,9 +220,18 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spinbutton4">
+              <object class="GtkSpinButton" id="spin_button_nb_neutrons">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="max_length">6</property>
+                <property name="width_chars">2</property>
+                <property name="text" translatable="yes">100</property>
+                <property name="xalign">0.0099999997764825821</property>
+                <property name="progress_pulse_step">0</property>
+                <property name="input_purpose">alpha</property>
+                <property name="adjustment">neutrons_nb</property>
+                <property name="climb_rate">1000</property>
+                <property name="value">10</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -196,7 +254,7 @@
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkButton" id="button1">
+              <object class="GtkButton" id="start">
                 <property name="label" translatable="yes">Start simulation</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -209,7 +267,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkProgressBar" id="progressbar1">
+              <object class="GtkProgressBar" id="loading">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
               </object>
@@ -232,6 +290,9 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">Results</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -250,7 +311,7 @@
               <object class="GtkLabel" id="label8">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">label</property>
+                <property name="label" translatable="yes">Absorbed</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -260,10 +321,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label9">
+              <object class="GtkLabel" id="absorb">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">label</property>
+                <property name="label" translatable="yes">0</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -290,7 +351,7 @@
               <object class="GtkLabel" id="label10">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">label</property>
+                <property name="label" translatable="yes">Reflected</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -300,10 +361,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label11">
+              <object class="GtkLabel" id="reflect">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">label</property>
+                <property name="label" translatable="yes">0</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -330,7 +391,7 @@
               <object class="GtkLabel" id="label12">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">label</property>
+                <property name="label" translatable="yes">Transmitted</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -340,10 +401,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label13">
+              <object class="GtkLabel" id="transmit">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">label</property>
+                <property name="label" translatable="yes">0</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -359,12 +420,6 @@
             <property name="width">1</property>
             <property name="height">1</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
         </child>
       </object>
     </child>
