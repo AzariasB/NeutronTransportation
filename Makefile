@@ -60,8 +60,3 @@ clean:
 # Create the target directory (if needed)
 $(TARGETDIR_transportation):
 	mkdir -p $(TARGETDIR_transportation)
-
-
-# Enable dependency checking
-.KEEP_STATE:
-.KEEP_STATE_FILE:.make.state.GNU-amd64-Linux
