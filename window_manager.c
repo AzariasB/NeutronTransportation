@@ -138,10 +138,6 @@ void runTest(material *mat, GtkBuilder *p_builder) {
     sprintf(c_abs, "%d", answer[2]);
     gtk_label_set_text(GTK_LABEL(absorbed), c_abs);
 
-
-
-
-
     /* Reactivate button */
     GtkWidget *start_button = (GtkWidget*) gtk_builder_get_object(p_builder, "start");
     gtk_widget_set_sensitive(start_button, TRUE);
