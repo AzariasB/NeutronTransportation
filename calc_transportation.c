@@ -50,10 +50,10 @@ void *calc_transportation(void* mat_prop) {
                 answer_index = 0;
                 bouncing = FALSE;
             } else if (position >= mat->thickness) { // Transmitted
-                answer_index = 2;
+                answer_index = 1;
                 bouncing = FALSE;
             } else if (u < (mat->absorbing / mat->mean_free_path)) {//Absorbed
-                answer_index = 1;
+                answer_index = 2;
                 bouncing = FALSE;
             } else {
                 direction = u * M_PI;

@@ -14,7 +14,7 @@
 #ifndef WINDOW_MANAGER_H
 #define	WINDOW_MANAGER_H
 
-
+#define DEBUG
 
 static pthread_t *cores;
 //static GtkBuilder *p_builder;

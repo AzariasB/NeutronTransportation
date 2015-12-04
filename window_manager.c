@@ -64,8 +64,9 @@ void *init_test(GtkWidget* trigerrer, gpointer callback_data) {
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(loader), (gdouble) 1 / 20);
 
     /* Unactivate button */
-    gtk_button_set_label(GTK_BUTTON(trigerrer),"Running...");
+    gtk_button_set_label(GTK_BUTTON(trigerrer), "Running...");
     gtk_widget_set_sensitive(trigerrer, FALSE);
+
 
     /* Create material with properties chosen by the user*/
     material *mat = create_material(p_builder);
@@ -76,15 +77,18 @@ void *init_test(GtkWidget* trigerrer, gpointer callback_data) {
     runTest(mat, p_builder);
 }
 
-void runTest(material* mat, GtkBuilder *p_builder) {
-    //Init material caracteristics
-    //    const material *mat = material_new(atof(argv[1]), atof(argv[2]), atof(argv[3]));
+void runTest(material *mat, GtkBuilder *p_builder) {
+    /* Reinit answer*/
+    for (int i = 0; i < 3; i++) answer[i] = 0;
 
+    /* Set loader settings */
     GtkWidget *loader = (GtkWidget*) gtk_builder_get_object(p_builder, "loading");
     double loader_value = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(loader));
     double threads_inc = 1.f - loader_value - (1 / 20);
 
+#ifdef DEBUG
     printf("Running tests with %d neutrons.\n", numberOfNeutron);
+#endif
 
     int ans_length = sizeof (answer) / sizeof (int);
     mutexes = malloc(sizeof (pthread_mutex_t) * ans_length);
@@ -96,7 +100,7 @@ void runTest(material* mat, GtkBuilder *p_builder) {
         }
     }
 
-    /* Creating threads */
+    /* Creating threads and launching sub-routine */
     cores = malloc(sizeof (pthread_t) * coreNumber);
     for (int i = 0; i < coreNumber; i++) {
         int err = pthread_create(&cores[i], NULL, calc_transportation, (void *) mat);
@@ -119,28 +123,32 @@ void runTest(material* mat, GtkBuilder *p_builder) {
     free(mutexes);
 
     /* Display results */
-    GtkWidget *absorbed = (GtkWidget*) gtk_builder_get_object(p_builder,"absorb");
-    char c_abs[10];
-    sprintf(c_abs,"%d",answer[2]);
-    gtk_label_set_text(GTK_LABEL(absorbed),c_abs);
-    
-    GtkWidget *transmitted = (GtkWidget*) gtk_builder_get_object(p_builder,"transmit");
-    char c_trans[10];
-    sprintf(c_trans,"%d",answer[1]);
-    gtk_label_set_text(GTK_LABEL(transmitted),c_trans);
-    
-    GtkWidget *reflected = (GtkWidget*) gtk_builder_get_object(p_builder,"reflect");
+    GtkWidget *reflected = (GtkWidget*) gtk_builder_get_object(p_builder, "reflect");
     char c_refl[10];
-    sprintf(c_refl,"%d",answer[0]);
-    gtk_label_set_text(GTK_LABEL(reflected),c_refl);
-    
+    sprintf(c_refl, "%d", answer[0]);
+    gtk_label_set_text(GTK_LABEL(reflected), c_refl);
+
+    GtkWidget *transmitted = (GtkWidget*) gtk_builder_get_object(p_builder, "transmit");
+    char c_trans[10];
+    sprintf(c_trans, "%d", answer[1]);
+    gtk_label_set_text(GTK_LABEL(transmitted), c_trans);
+
+    GtkWidget *absorbed = (GtkWidget*) gtk_builder_get_object(p_builder, "absorb");
+    char c_abs[10];
+    sprintf(c_abs, "%d", answer[2]);
+    gtk_label_set_text(GTK_LABEL(absorbed), c_abs);
+
+
+
+
+
     /* Reactivate button */
     GtkWidget *start_button = (GtkWidget*) gtk_builder_get_object(p_builder, "start");
     gtk_widget_set_sensitive(start_button, TRUE);
-    gtk_button_set_label(GTK_BUTTON(start_button),"Start");
+    gtk_button_set_label(GTK_BUTTON(start_button), "Start");
 
     /* Reset loader */
-    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(loader),0.f);
+    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(loader), 0.f);
 }
 
 #endif
