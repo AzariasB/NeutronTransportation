@@ -4,11 +4,8 @@ radiation.
 
 TODO :
 - [x] Implement the basic algorithm
-- [ ] Implement the basic algorithm WITH REAL VALUES
 - [x] Implement the threaded algorithm
-- [ ] Implement the threaded algorithm WITH REAL VALUES
 - [x] Create a GUI with GTK+
-- [ ] Improve the GUI with more options menu ...
 
 
 What to run :
