@@ -22,7 +22,7 @@ all: $(TARGETDIR_transportation)/transportation
 
 ## Target: *.c
 OBJS_transportation =  \
-	$(TARGETDIR_transportation)/main.o
+	$(TARGETDIR_transportation)/main_serial.o
 SYSLIBS_transportation = -lm 
 USERLIBS_transportation = $(SYSLIBS_transportation) 
 DEPLIBS_transportation =  
@@ -35,8 +35,8 @@ $(TARGETDIR_transportation)/transportation: $(TARGETDIR_transportation) $(OBJS_t
 
 
 # Compile source files into .o files
-$(TARGETDIR_transportation)/main.o: $(TARGETDIR_transportation) main.c
-	$(COMPILE.c) $(CFLAGS_transportation) $(CPPFLAGS_transportation) -o $@ main.c
+$(TARGETDIR_transportation)/main_serial.o: $(TARGETDIR_transportation) main_serial.c
+	$(COMPILE.c) $(CFLAGS_transportation) $(CPPFLAGS_transportation) -o $@ main_serial.c
 
 
 
@@ -44,7 +44,7 @@ $(TARGETDIR_transportation)/main.o: $(TARGETDIR_transportation) main.c
 clean:
 	rm -f \
 		$(TARGETDIR_transportation)/transportation \
-		$(TARGETDIR_transportation)/main.o
+		$(TARGETDIR_transportation)/main_serial.o
 	rm -f -r $(TARGETDIR_transportation)
 
 
