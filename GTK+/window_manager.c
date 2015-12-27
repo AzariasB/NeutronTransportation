@@ -3,6 +3,7 @@
 
 #ifdef WINDOW_MANAGER_H
 
+
 void setup_window(GtkWidget* window) {
     GtkWindow* win = GTK_WINDOW(window);
     GQuark dom;
@@ -52,6 +53,7 @@ material *create_material(GtkBuilder *p_builder) {
     int mat_thickness = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(thickness));
     double mat_mean_f_path = gtk_spin_button_get_value(GTK_SPIN_BUTTON(mean_f_path));
     double mat_absorption = gtk_spin_button_get_value(GTK_SPIN_BUTTON(absorption));
+
     //Create material from infos
     return material_new(mat_mean_f_path, mat_absorption, mat_thickness);
 }
@@ -74,10 +76,12 @@ void *init_test(GtkWidget* trigerrer, gpointer callback_data) {
     /* Set number of neutrons */
     GtkWidget *spin_neutrons_nb = (GtkWidget*) gtk_builder_get_object(p_builder, "spin_button_nb_neutrons");
     numberOfNeutron = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spin_neutrons_nb));
-    runTest(mat, p_builder);
+
+    runTest(mat,p_builder);
 }
 
-void runTest(material *mat, GtkBuilder *p_builder) {
+void *runTest(material *mat,GtkBuilder *p_builder) {
+
     /* Reinit answer*/
     for (int i = 0; i < 3; i++) answer[i] = 0;
 
@@ -95,6 +99,7 @@ void runTest(material *mat, GtkBuilder *p_builder) {
 
     /* Creating mutexes */
     for (int i = 0; i < ans_length; i++) {
+        refreshUI();
         if (pthread_mutex_init(&mutexes[i], NULL) != 0) {
             perror("Could not create mutex");
         }
@@ -103,18 +108,25 @@ void runTest(material *mat, GtkBuilder *p_builder) {
     /* Creating threads and launching sub-routine */
     cores = malloc(sizeof (pthread_t) * coreNumber);
     for (int i = 0; i < coreNumber; i++) {
-        int err = pthread_create(&cores[i], NULL, calc_transportation, (void *) mat);
-        if (err != 0) {
+        refreshUI();
+        int created = pthread_create(&cores[i], NULL, calc_transportation, (void *) mat);
+        if (created != 0) {
             perror("Coult not create thread");
         }
     }
 
     /* Joining thread */
     for (int i = 0; i < coreNumber; i++) {
-        pthread_join(cores[i], NULL);
+        int joined = pthread_join(cores[i], NULL);
+        if(joined != 0){
+            perror("Could not join thread");
+        }
         double cur_value = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(loader));
         gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(loader), cur_value + threads_inc);
+        refreshUI();
     }
+
+
     free(cores);
 
     for (int i = 0; i < ans_length; i++) {
@@ -145,6 +157,10 @@ void runTest(material *mat, GtkBuilder *p_builder) {
 
     /* Reset loader */
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(loader), 0.f);
+}
+
+void refreshUI(){
+    while(gtk_events_pending()) gtk_main_iteration();
 }
 
 #endif

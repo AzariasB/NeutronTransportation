@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   main.c
  * Author: boutina
  *
@@ -32,6 +32,13 @@ double r2()
     return (double)rand() / (double)RAND_MAX ;
 }
 
+/**
+ * Here is where the magic happen!
+ * This is where the simulation is made by making a
+ * neutron travelling across a material
+ * @param mat [description]
+ * @param res [description]
+ */
 void calcTransportation( material mat, int* res) {
     for (int i = 0; i < numberOfNeutron; i++) {
         double direction = 0;
