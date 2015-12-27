@@ -1,8 +1,6 @@
-/nbproject/private/
-/nbproject/*
-/nbproject/
-/build/
-/res/
-/dist/
-/Parallel/res/
-/Serial/serial_linux
+nbproject/
+build/
+res/
+dist/
+assets/
+*.o
